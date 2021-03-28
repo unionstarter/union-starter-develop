@@ -1,0 +1,150 @@
+{
+  "version": 1,
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "defaultProject": "contacts",
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "scss"
+    }
+  },
+  "projects": {
+    "contacts": {
+      "projectType": "application",
+      "root": "apps/contacts",
+      "sourceRoot": "apps/contacts/src",
+      "prefix": "union-starter",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/contacts",
+            "index": "apps/contacts/src/index.html",
+            "main": "apps/contacts/src/main.ts",
+            "polyfills": "apps/contacts/src/polyfills.ts",
+            "tsConfig": "apps/contacts/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/contacts/src/favicon.ico",
+              "apps/contacts/src/assets"
+            ],
+            "styles": ["apps/contacts/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/contacts/src/environments/environment.ts",
+                  "with": "apps/contacts/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "contacts:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "contacts:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "contacts:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/contacts/src/**/*.ts",
+              "apps/contacts/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/contacts"],
+          "options": {
+            "jestConfig": "apps/contacts/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "contacts-e2e": {
+      "root": "apps/contacts-e2e",
+      "sourceRoot": "apps/contacts-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/contacts-e2e/cypress.json",
+            "tsConfig": "apps/contacts-e2e/tsconfig.e2e.json",
+            "devServerTarget": "contacts:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "contacts:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/contacts-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
