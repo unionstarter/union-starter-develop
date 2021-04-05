@@ -9,13 +9,20 @@ import { AppRoutingModule } from '../shared/routing/app-routing.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { SignInComponent } from './sign-in/sign-in.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
-import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+import {
+  SignInComponent,
+  SignUpComponent,
+  ForgotPasswordComponent,
+  VerifyEmailComponent,
+  UpdatePhoneComponent,
+} from './auth';
+import { ProfileComponent } from './profile/profile.component';
+import { MaterialImportsModule } from './material-imports/material-imports.module';
+
+console.log('env', environment);
 
 @NgModule({
   declarations: [
@@ -25,6 +32,8 @@ import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore'
     DashboardComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
+    UpdatePhoneComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +43,7 @@ import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore'
     AngularFireAuthModule,
     AngularFirestoreModule,
     AppRoutingModule,
+    MaterialImportsModule,
   ],
   providers: [
     {

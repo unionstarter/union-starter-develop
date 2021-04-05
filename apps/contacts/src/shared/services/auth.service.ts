@@ -1,63 +1,62 @@
-import { Injectable, NgZone } from '@angular/core';
-import { User } from '../services/user';
+import { PhoneNumber } from './models/phoneNumber';
+import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { User } from './models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  userData: firebase.User;
 
   constructor(
-    public angularFireStore: AngularFirestore, // Inject Firestore service
-    public angularFireAuth: AngularFireAuth, // Inject Firebase auth service
-    public router: Router,
-    public ngZone: NgZone // NgZone service to remove outside scope warning
+    public angularFireStore: AngularFirestore,
+    public angularFireAuth: AngularFireAuth,
+    public router: Router
   ) {
-    /* Saving user data in localstorage when
-    logged in and setting up null when logged out */
     this.angularFireAuth.authState.subscribe((user) => {
+      console.log('authState fires', user);
       if (user) {
         this.userData = user;
         localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
       }
+    });
+
+    this.angularFireAuth.user.subscribe((user) => {
+      console.log('user from user sub', user);
     });
   }
 
-  // Sign in with email/password
-  SignIn(email, password) {
+  async SignIn(email: string, password: string) {
+    await this.angularFireAuth.setPersistence(
+      firebase.auth.Auth.Persistence.LOCAL
+    );
     return this.angularFireAuth
       .signInWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        // this.SetUserData(result.user);
+      .then(async (result) => {
+        await this.SetUserData(result.user);
+        this.router.navigate(['dashboard']);
       })
       .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  // Sign up with email/password
-  SignUp(email, password) {
+  SignUp(email: string, password: string) {
     return this.angularFireAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        /* Call the SendVerificaitonMail() function when new user sign
-        up and returns promise */
+        this.SetUserData(result.user);
         this.SendVerificationMail();
-        // this.SetUserData(result.user);
       })
       .catch((error) => {
         window.alert(error.message);
@@ -68,7 +67,6 @@ export class AuthService {
     return await this.angularFireAuth.currentUser;
   }
 
-  // Send email verfificaiton when new user sign up
   async SendVerificationMail() {
     const currentUser = await this.GetCurrentUser();
     return currentUser.sendEmailVerification().then(() => {
@@ -76,8 +74,7 @@ export class AuthService {
     });
   }
 
-  // Reset Forggot password
-  ForgotPassword(passwordResetEmail) {
+  ForgotPassword(passwordResetEmail: string) {
     return this.angularFireAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
@@ -88,36 +85,32 @@ export class AuthService {
       });
   }
 
-  // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
     return user !== null && user.emailVerified !== false ? true : false;
   }
 
-  // Sign in with Google
   GoogleAuth() {
     return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
   }
 
-  // Auth logic to run auth providers
-  AuthLogin(provider) {
+  async AuthLogin(provider) {
     return this.angularFireAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        });
-        // this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        window.alert(error);
+      .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(() => {
+        return this.angularFireAuth
+          .signInWithPopup(provider)
+          .then(async (result) => {
+            await this.SetUserData(result.user);
+            this.router.navigate(['dashboard']);
+          })
+          .catch((error) => {
+            window.alert(error);
+          });
       });
   }
 
-  /* Setting up user data when sign in with username/password,
-  sign up with username/password and sign in with social auth
-  provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  SetUserData(user) {
+  SetUserData(user: firebase.User) {
     const userRef: AngularFirestoreDocument<any> = this.angularFireStore.doc(
       `users/${user.uid}`
     );
@@ -126,17 +119,48 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       emailVerified: user.emailVerified,
+      phoneNumber: user.phoneNumber,
     };
     return userRef.set(userData, {
       merge: true,
     });
   }
 
-  // Sign out
+  UpdateDisplayName(name: string) {
+    this.userData.updateProfile({
+      displayName: name,
+    });
+  }
+
+  LinkPhoneNumber(
+    phoneNumber: string,
+    applicationVerifier: firebase.auth.RecaptchaVerifier
+  ) {
+    return this.userData.linkWithPhoneNumber(phoneNumber, applicationVerifier);
+  }
+
+  ConfirmPhoneNumber(
+    confirmation: firebase.auth.ConfirmationResult,
+    code: string
+  ) {
+    confirmation
+      .confirm(code)
+      .then((result) => {
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   SignOut() {
     return this.angularFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
     });
+  }
+
+  CreateCaptcha() {
+    return new firebase.auth.RecaptchaVerifier('recaptcha-container');
   }
 }

@@ -1,5 +1,5 @@
+import { AuthService } from './../shared/services/auth.service';
 import { Component } from '@angular/core';
-
 
 @Component({
   selector: 'union-starter-root',
@@ -8,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'contacts';
+
+  constructor(public authService: AuthService) {}
 }

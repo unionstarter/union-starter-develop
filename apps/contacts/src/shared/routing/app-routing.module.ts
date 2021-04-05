@@ -1,12 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from '../../app/dashboard/dashboard.component';
-import { ForgotPasswordComponent } from '../../app/forgot-password/forgot-password.component';
-import { SignInComponent } from '../../app/sign-in/sign-in.component';
-import { SignUpComponent } from '../../app/sign-up/sign-up.component';
-import { VerifyEmailComponent } from '../../app/verify-email/verify-email.component';
+import { ProfileComponent } from '../../app/profile/profile.component';
+import {
+  SignInComponent,
+  SignUpComponent,
+  ForgotPasswordComponent,
+  VerifyEmailComponent,
+  UpdatePhoneComponent,
+} from '../../app/auth';
 
-// Import all the components for which navigation service has to be activated
 import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
@@ -16,6 +19,16 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'updated-phone',
+    component: UpdatePhoneComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
     canActivate: [AuthGuard],
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },

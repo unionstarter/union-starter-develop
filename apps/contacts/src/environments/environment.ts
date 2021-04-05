@@ -7,7 +7,7 @@ export const environment = {
   useEmulators: true,
   firebaseConfig: {
     apiKey: 'AIzaSyDgEI6xogMpxGqbmEfbYSSHnq_QHx8Vxzk',
-    authDomain: 'union-starter.firebaseapp.com',
+    authDomain: 'localhost',
     projectId: 'union-starter',
     storageBucket: 'union-starter.appspot.com',
     messagingSenderId: '1021836308286',
