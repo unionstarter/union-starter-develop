@@ -1,8 +1,8 @@
-<mat-grid-list cols="12" rowHeight="50px" gutterSize="10px">
-  <mat-grid-tile [colspan]="12" [rowspan]="1">
+<mat-grid-list cols="12" rowHeight="25px" gutterSize="10px">
+  <mat-grid-tile [colspan]="12" [rowspan]="2">
     <h1>Login</h1>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="12" [rowspan]="3">
+  <mat-grid-tile [colspan]="12" [rowspan]="5">
     <form [formGroup]="loginForm">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
@@ -26,77 +26,41 @@
       </mat-form-field>
     </form>
   </mat-grid-tile>
-  <mat-grid-tile [colspan]="12" [rowspan]="1"> Login Button </mat-grid-tile>
-  <mat-grid-tile [colspan]="12" [rowspan]="1"> Forgot Password? </mat-grid-tile>
+  <mat-grid-tile [colspan]="12" [rowspan]="2">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="
+        authService.SignIn(
+          loginForm.get('email').value,
+          loginForm.get('password').value
+        )
+      "
+      [disabled]="!this.loginForm.valid"
+    >
+      Login
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="12" [rowspan]="2">
+    <!-- <mat-divider></mat-divider> -->
+    <button
+      mat-raised-button
+      color="secondary"
+      (click)="authService.GoogleAuth()"
+    >
+      Login With Google&#160;&#160;
+      <img
+        src="https://img.icons8.com/color/452/google-logo.png"
+        width="30px"
+        height="30px"
+      />
+    </button>
+  </mat-grid-tile>
   <mat-grid-tile [colspan]="12" [rowspan]="1">
-    Don't have an account? Create Account
+    <a routerLink="/forgot-password">Forgot Password?</a>
+  </mat-grid-tile>
+  <mat-grid-tile [colspan]="12" [rowspan]="1">
+    Don't have an account?&#160;&#160;
+    <a routerLink="/register-user">Create Account</a>
   </mat-grid-tile>
 </mat-grid-list>
-
-<!-- old stuff  -->
-
-<!-- <div class="displayTable">
-  <div class="displayTableCell">
-    <div class="authBlock">
-      <h3>Sign In</h3>
-      <div class="formGroup">
-        <input
-          type="text"
-          class="formControl"
-          placeholder="Username"
-          #userName
-          required
-        />
-      </div>
-
-      <div class="formGroup">
-        <input
-          type="password"
-          class="formControl"
-          placeholder="Password"
-          #userPassword
-          required
-        />
-      </div>
-
-      <div class="formGroup">
-        <input
-          type="button"
-          class="btn btnPrimary"
-          value="Log in"
-          (click)="authService.SignIn(userName.value, userPassword.value)"
-        />
-      </div>
-
-      <div class="formGroup">
-        <span class="or"><span class="orInner">Or</span></span>
-      </div>
-
-      <div class="formGroup">
-        <button
-          type="button"
-          class="btn googleBtn"
-          (click)="authService.GoogleAuth()"
-        >
-          <i class="fab fa-google-plus-g"></i>
-          Log in with Google
-        </button>
-      </div>
-
-      <div class="forgotPassword">
-        <span routerLink="/forgot-password">Forgot Password?</span>
-      </div>
-    </div>
-
-    <div class="redirectToLogin">
-      <span
-        >Don't have an account?<span
-          class="redirect"
-          routerLink="/register-user"
-        >
-          Sign Up</span
-        ></span
-      >
-    </div>
-  </div>
-</div> -->

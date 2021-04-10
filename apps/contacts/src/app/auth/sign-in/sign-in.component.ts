@@ -12,6 +12,7 @@ export class SignInComponent {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
   });
+  constructor(public authService: AuthService) {}
 
   getErrorMessage(controlName: string) {
     if (this.loginForm.get(controlName).hasError('required')) {
@@ -24,13 +25,4 @@ export class SignInComponent {
 
     return '';
   }
-  // getPasswordErrorMessage() {
-  //   if (this.password.hasError('required')) {
-  //     return 'You must enter a value';
-  //   }
-
-  //   return '';
-  // }
-
-  constructor(public authService: AuthService) {}
 }

@@ -10,31 +10,25 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+
+const materialModules = [
+  CommonModule,
+  BrowserAnimationsModule,
+  MatToolbarModule,
+  MatButtonModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatMenuModule,
+  MatGridListModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDividerModule,
+];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatMenuModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
-  exports: [
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatMenuModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatInputModule,
-  ],
+  imports: [...materialModules],
+  exports: [...materialModules],
 })
 export class MaterialImportsModule {}

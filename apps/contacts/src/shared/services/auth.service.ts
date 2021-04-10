@@ -1,4 +1,3 @@
-import { PhoneNumber } from './models/phoneNumber';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
@@ -37,6 +36,8 @@ export class AuthService {
   }
 
   async SignIn(email: string, password: string) {
+    console.log('params signin', { email, password });
+
     await this.angularFireAuth.setPersistence(
       firebase.auth.Auth.Persistence.LOCAL
     );
