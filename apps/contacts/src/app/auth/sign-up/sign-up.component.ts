@@ -1,6 +1,11 @@
 import { AuthService } from './../../../shared/services/auth.service';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'union-starter-sign-up',
@@ -8,21 +13,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./sign-up.component.scss'],
 })
 export class SignUpComponent {
+  minLength = 8;
   signupForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(this.minLength),
+    ]),
   });
-  constructor(public authService: AuthService) {}
-
-  getErrorMessage(controlName: string) {
-    if (this.signupForm.get(controlName).hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    if (this.signupForm.get(controlName).hasError('email')) {
-      return 'Not a valid email';
-    }
-
-    return '';
-  }
+  constructor(
+    public authService: AuthService,
+    private formBuilder: FormBuilder
+  ) {}
 }

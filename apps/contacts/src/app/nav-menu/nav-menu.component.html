@@ -1,0 +1,38 @@
+<mat-toolbar color="primary" class="mat-elevation-z8">
+  <button mat-icon-button [matMenuTriggerFor]="mainMenu" aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #mainMenu="matMenu" class="mat-elevation-z16">
+    <button mat-menu-item>What is a Union?</button>
+    <button mat-menu-item>Stages of Union Organization</button>
+    <button mat-menu-item *ngIf="authService.isLoggedIn">
+      Whats our Progress?
+    </button>
+    <button mat-menu-item>How to help</button>
+    <button mat-menu-item>Information and Motivation</button>
+  </mat-menu>
+  <span class="mind-the-gap"></span>
+  <h1 routerLink="/dashboard" class="clickable">Union Starter</h1>
+  <span class="spacer"></span>
+  <button
+    mat-icon-button
+    matTooltip="Logout"
+    aria-label="Log out"
+    *ngIf="authService.isLoggedIn"
+    (click)="authService.SignOut()"
+  >
+    <mat-icon>logout</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    [matMenuTriggerFor]="profile"
+    aria-label="Login"
+    *ngIf="authService.isLoggedIn"
+  >
+    <mat-icon>face</mat-icon>
+  </button>
+  <mat-menu #profile="matMenu" class="mat-elevation-z16">
+    <button mat-menu-item routerLink="profile">Profile</button>
+    <button mat-menu-item (click)="authService.SignOut()">Logout</button>
+  </mat-menu>
+</mat-toolbar>

@@ -19,8 +19,15 @@ import {
   VerifyEmailComponent,
   UpdatePhoneComponent,
 } from './auth';
-import { ProfileComponent } from './profile/profile.component';
-import { MaterialImportsModule } from './material-imports/material-imports.module';
+import { MaterialImportsModule } from '../material-imports/material-imports.module';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { ProfileInfoComponent } from './user-profile/profile-info/profile-info.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 
 console.log('env', environment);
 
@@ -33,7 +40,9 @@ console.log('env', environment);
     ForgotPasswordComponent,
     VerifyEmailComponent,
     UpdatePhoneComponent,
-    ProfileComponent,
+    UserProfileComponent,
+    NavMenuComponent,
+    ProfileInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +53,11 @@ console.log('env', environment);
     AngularFirestoreModule,
     AppRoutingModule,
     MaterialImportsModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
   ],
   providers: [
     {

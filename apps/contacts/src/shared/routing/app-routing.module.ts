@@ -1,7 +1,7 @@
+import { UserProfileComponent } from './../../app/user-profile/user-profile.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from '../../app/dashboard/dashboard.component';
-import { ProfileComponent } from '../../app/profile/profile.component';
 import {
   SignInComponent,
   SignUpComponent,
@@ -22,13 +22,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'updated-phone',
-    component: UpdatePhoneComponent,
-    canActivate: [AuthGuard],
+    path: 'profile',
+    component: UserProfileComponent,
+    // canActivate: [AuthGuard],
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
+    path: 'updated-phone',
+    component: UpdatePhoneComponent,
     canActivate: [AuthGuard],
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },
