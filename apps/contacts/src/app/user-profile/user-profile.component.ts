@@ -8,4 +8,8 @@ import { AuthService } from '../../shared/services/auth.service';
 })
 export class UserProfileComponent {
   constructor(public authService: AuthService) {}
+
+  action() {
+    console.log('hi');
+  }
 }

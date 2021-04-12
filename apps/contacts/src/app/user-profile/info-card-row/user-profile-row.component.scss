@@ -1,0 +1,33 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+
+  border-top: 1px solid rgb(192, 192, 192);
+  padding: 10px 0;
+  align-items: center;
+
+  .title {
+    min-width: 150px;
+    margin-right: 20px;
+    letter-spacing: 0.07272727em;
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1rem;
+    text-transform: uppercase;
+    hyphens: auto;
+    word-break: break-word;
+    word-wrap: break-word;
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+
+  .action {
+    display: flex;
+    align-items: center;
+  }
+}

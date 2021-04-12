@@ -22,12 +22,14 @@ import {
 import { MaterialImportsModule } from '../material-imports/material-imports.module';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { ProfileInfoComponent } from './user-profile/profile-info/profile-info.component';
+import { InfoCardComponent } from './user-profile/info-card/info-card.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
+import { InfoCardRowComponent } from './user-profile/info-card-row/info-card-row.component';
+import { InfoCardRowTitleComponent } from './user-profile/info-card-row-title/info-card-row-title.component';
 
 console.log('env', environment);
 
@@ -42,7 +44,9 @@ console.log('env', environment);
     UpdatePhoneComponent,
     UserProfileComponent,
     NavMenuComponent,
-    ProfileInfoComponent,
+    InfoCardComponent,
+    InfoCardRowComponent,
+    InfoCardRowTitleComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,5 +74,6 @@ console.log('env', environment);
     },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [InfoCardRowTitleComponent],
 })
 export class AppModule {}
